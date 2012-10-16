@@ -9,6 +9,11 @@ if ( typeof Object.create !== 'function' ) {
 
 (function($, window, document, undefined){
 	var Twitter = {
+		/**
+		 * function that initializes the plugin
+		 * @param  {object} options user passed options
+		 * @param  {DOM ELement} elem    Twitter element
+		 */
 		init: function(options, elem){
 			var self = this;
 
@@ -19,12 +24,16 @@ if ( typeof Object.create !== 'function' ) {
 
 			self.options = $.extend({}, $.fn.tweetFeed.options, options);
 
-			self.url = 'http://twitter.com/statuses/user_timeline/' + self.username + '.json';
+			self.url = 'http://api.twitter.com/1/statuses/user_timeline.json?screen_name=' + self.username ;
 
 			self.refresh(1);
 
 		},
 
+		/**
+		 * refresh tweets
+		 * @param  {int} length interval of time to refresh tweets
+		 */
 		refresh: function(length){
 			var self = this;
 
@@ -48,6 +57,10 @@ if ( typeof Object.create !== 'function' ) {
 			}, length || self.options.refresh);
 		},
 
+		/**
+		 * fetch tweet object from twitter
+		 * @return {json} json representation of tweets
+		 */
 		fetchTweets: function(){
 			return $.ajax({
 				url : this.url,
@@ -56,16 +69,27 @@ if ( typeof Object.create !== 'function' ) {
 			});
 		},
 
+		/**
+		 * build HTML with the twitter object
+		 * @param  {object} results twitter object
+		 * @return {DOM element}         element wrapped in HTML tags
+		 */
 		buildHTML: function(results){
 			var self = this;
 
 			self.tweets = $.map(results, function(obj, i){
 				
 				var tweet = self.linkify(obj.text);
+					tweetedAt = self.linkify(obj.created_at);
 				return $(self.options.wrapWith).append(tweet)[0];
 			});
 		},
 
+		/**
+		 * Regex to convert links in tweets to anchor tags
+		 * @param  {String} text String to be linkified
+		 * @return {HTML}      converted anchor tags
+		 */
 		linkify: function(text){
 			return text.replace(/(https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/, function (u) {
     			var shortUrl = (u.length > 30) ? u.substr(0, 30) + '...': u;
@@ -77,6 +101,9 @@ if ( typeof Object.create !== 'function' ) {
   			});
 		},
 
+		/**
+		 * display the tweets in the browser
+		 */
 		display: function(){
 			var self = this;
 
@@ -89,6 +116,12 @@ if ( typeof Object.create !== 'function' ) {
 			}
 		},
 
+		/**
+		 * Slices the HTML of tweet according the value passed
+		 * @param  {HTML} obj   HTML representation of tweets
+		 * @param  {int} count number of tweets to be displayed
+		 * @return {HTML}       number of tweets
+		 */
 		limit: function(obj, count){
 			return obj.slice(0 ,count);
 		},
