@@ -1,3 +1,30 @@
+/*==============================================================================
+	Author: 		Subash Adhikari
+	Description: 	jQuery plugin that fetches tweets for the given username
+	website: 		www.subash.com.au/plugins/tweetfeed	
+	Date: 			2nd August 2012
+	Contact: 		me@subash.com.au
+	Version: 		1.0
+
+	HOW TO USE
+	============
+	Just add the following script in the footer of your HTML.
+
+	$('div_to_load_tweets').tweetFeed('your_twitter_username');
+
+	There are more option available.  Visit the plugin website or the github page.
+
+	CONTACTS AND FEEDBACK
+	=======================
+	If you want more functionalities or have feedback, feel free to contact me at:
+	me@subash.com.au or tweet me at @adikari
+
+	If you want to improve the plugin please fork it at github.
+	https://github.com/subash1232/twitFeed
+=================================================================================*/
+
+
+
 // Utility
 if ( typeof Object.create !== 'function' ) {
 	Object.create = function( obj ) {
@@ -75,13 +102,47 @@ if ( typeof Object.create !== 'function' ) {
 		 * @return {DOM element}         element wrapped in HTML tags
 		 */
 		buildHTML: function(results){
-			var self = this;
+			var self = this,
+				options = self.options;
 
 			self.tweets = $.map(results, function(obj, i){
 				
-				var tweet = self.linkify(obj.text);
-					tweetedAt = self.linkify(obj.created_at);
-				return $(self.options.wrapWith).append(tweet)[0];
+				var tweet = $(self.options.wrapTweetWith)
+								.append(self.linkify(obj.text)),
+
+					tweetTime = $(self.options.wrapDateWith)
+									.append(self.compareDates(obj.created_at)),
+
+					profilePic = '<img src="' + obj.user.profile_image_url + '">',
+
+					screenName = $(self.options.wrapScreenNameWith)
+									.append('<a href="http://www.twitter.com/' + obj.user.screen_name + '">@' + obj.user.screen_name + '</a>'),
+
+					container = $(self.options.wrapWith)
+									.append();
+
+				if(options.containerClass !== undefined)
+					container.addClass(options.containerClass);
+
+				if(options.tweetClass !== undefined)
+					tweet.addClass(options.tweetClass);
+
+				if(options.dateClass !== undefined)
+					tweetTime.addClass(options.dateClass);
+
+				if(options.screenName)
+					container.append(screenName);
+
+				// append date to the container
+				if(options.profilePic)
+					container.append(profilePic);
+
+				container.append(tweet);
+
+				if(options.tweetTime)
+					container.append(tweetTime);
+
+				return container[0];
 			});
 		},
 
@@ -162,11 +223,20 @@ if ( typeof Object.create !== 'function' ) {
 	};
 
 	$.fn.tweetFeed.options = {
-		username: 'adikari',
-		wrapWith: '<li></li>',
-		transition: 'fadeToggle',
-		noOfTweets: 10,
-		refresh: null,
-		onComplete: null
+		username 			: 'adikari',
+		tweetTime    		: true,
+		profilePic			: false,
+		screenName 			: false,
+		wrapWith 			: '<li></li>',
+		wrapTweetWith 		: '<p></p>',
+		wrapDateWith 		: '<span></span>',
+		wrapScreenNameWith 	: '<h2></h2>',
+		containerClass 		: undefined,
+		tweetClass 			: undefined,
+		dateClass 			: undefined,
+		transition 			: 'false',
+		noOfTweets 			: 10,
+		refresh 			: null,
+		onComplete 			: null
 	};	
 }(jQuery, window, document));
