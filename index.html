@@ -7,7 +7,9 @@
 <body>
 
 <h1>My Tweets</h1>
-<div class="tweets"></div>
+<div class="tweets">
+	<!-- tweet will be generated here automatically -->
+</div>
 
 <script src="jquery.js"></script>
 <script src="tweetfeed.jquery.js"></script>
@@ -15,7 +17,11 @@
 <script>
 $('div.tweets').tweetFeed({
 	username: 'adikari',
-	transition: 'false'
+	transition: 'false',
+	profilePic			: true,
+	callback: function(){
+		console.log('test');
+	}
 });
 
 </script>

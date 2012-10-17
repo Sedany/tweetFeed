@@ -42,10 +42,16 @@ if ( typeof Object.create !== 'function' ) {
 		 * @param  {DOM ELement} elem    Twitter element
 		 */
 		init: function(options, elem){
-			var self = this;
+			var self = this,
+				options = $.extend({
+			        callback: function() {}
+			    }, arguments[0] || {});
 
 			self.elem = elem;
 			self.$elem = $(elem);
+
+		    // call the callback and apply the scope:
+		    options.callback.call(this);
 
 			self.username = (typeof options === 'string') ? options : options.username;
 
