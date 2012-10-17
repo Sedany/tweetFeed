@@ -17,7 +17,7 @@ Using tweetFeed is very easy.
 
 2. Below is the simplest way to use the plugin.
 
-    $('div_to_load_tweets').tweetFeed('your_twitter_username');
+        $('div_to_load_tweets').tweetFeed('your_twitter_username');
 
 That's all for it.
 
@@ -30,13 +30,13 @@ That's all for it.
 
 2. Below is the simplest way to use the plugin.
 
-    $('div_to_load_tweets').tweetFeed({  
-    username "your_username",  
-    transition: true  
-    callback: function(){  
-       // any function  
-    }   
-    });
+        $('div_to_load_tweets').tweetFeed({  
+            username "your_username",  
+            transition: true  
+            onComplete: function(){  
+               // call any function
+            }   
+         });
 
 Check the options section for the list of all options available.
 
