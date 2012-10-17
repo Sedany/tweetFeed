@@ -44,7 +44,7 @@ if ( typeof Object.create !== 'function' ) {
 		init: function(options, elem){
 			var self = this,
 				options = $.extend({
-			        callback: function() {}
+			        onComplete: function() {}
 			    }, arguments[0] || {});
 
 			self.elem = elem;
@@ -75,9 +75,8 @@ if ( typeof Object.create !== 'function' ) {
 
 					self.display();
 
-					if(typeof self.options.onComplete === 'function'){
-						self.options.onComplete.apply(self.elem, arguments);
-					}
+					// call the callback and apply the scope:
+				    self.options.callback.call(this);
 
 					if(self.options.refresh){
 						self.refresh();
@@ -203,8 +202,6 @@ if ( typeof Object.create !== 'function' ) {
 				});
 			}
 
-			// call the callback and apply the scope:
-		    self.options.callback.call(this);
 		},
 
 		/**
