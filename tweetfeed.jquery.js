@@ -50,9 +50,6 @@ if ( typeof Object.create !== 'function' ) {
 			self.elem = elem;
 			self.$elem = $(elem);
 
-		    // call the callback and apply the scope:
-		    options.callback.call(this);
-
 			self.username = (typeof options === 'string') ? options : options.username;
 
 			self.options = $.extend({}, $.fn.tweetFeed.options, options);
@@ -205,6 +202,9 @@ if ( typeof Object.create !== 'function' ) {
 					$(this).html(self.tweets)[self.options.transition](500);
 				});
 			}
+
+			// call the callback and apply the scope:
+		    self.options.callback.call(this);
 		},
 
 		/**
