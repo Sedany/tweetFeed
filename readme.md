@@ -33,7 +33,7 @@ That's all for it.
         $('div_to_load_tweets').tweetFeed({  
             username "your_username",  
             transition: true  
-            onComplete: function(){  
+            callback: function(){  
                // call any function
             }   
          });
@@ -58,7 +58,7 @@ Options Available
 ### transition : Boolean
 ### noOfTweets : Integer
 ### refresh : Time Interval as Integer
-### onComplete : Callback Function
+### callback : Callback Function
 
 
 Contributing

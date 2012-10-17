@@ -42,9 +42,9 @@ if ( typeof Object.create !== 'function' ) {
 		 * @param  {DOM ELement} elem    Twitter element
 		 */
 		init: function(options, elem){
-			var self = this,
-				options = $.extend({
-			        onComplete: function() {}
+			var self = this
+			options = $.extend({
+			        callback: function() {}
 			    }, arguments[0] || {});
 
 			self.elem = elem;
@@ -74,9 +74,6 @@ if ( typeof Object.create !== 'function' ) {
 					self.buildHTML(results);
 
 					self.display();
-
-					// call the callback and apply the scope:
-				    self.options.callback.call(this);
 
 					if(self.options.refresh){
 						self.refresh();
@@ -115,13 +112,10 @@ if ( typeof Object.create !== 'function' ) {
 					tweetTime = $(self.options.wrapDateWith)
 									.append(self.compareDates(obj.created_at)),
 
-					profilePic = '<img src="' + obj.user.profile_image_url + '">',
-
-					screenName = $(self.options.wrapScreenNameWith)
-									.append('<a href="http://www.twitter.com/' + obj.user.screen_name + '">@' + obj.user.screen_name + '</a>'),
-
 					container = $(self.options.wrapWith)
-									.append();
+									.append(),
+
+					html= container.append(tweet);
 
 				if(options.containerClass !== undefined)
 					container.addClass(options.containerClass);
@@ -132,19 +126,11 @@ if ( typeof Object.create !== 'function' ) {
 				if(options.dateClass !== undefined)
 					tweetTime.addClass(options.dateClass);
 
-				if(options.screenName)
-					container.append(screenName);
-
 				// append date to the container
-				if(options.profilePic)
-					container.append(profilePic);
-
-				container.append(tweet);
-
 				if(options.tweetTime)
-					container.append(tweetTime);
+					html.append(tweetTime);
 
-				return container[0];
+				return html[0];
 			});
 		},
 
@@ -202,6 +188,8 @@ if ( typeof Object.create !== 'function' ) {
 				});
 			}
 
+			// call the callback and apply the scope:
+			self.options.callback.call(self);
 		},
 
 		/**
@@ -226,20 +214,17 @@ if ( typeof Object.create !== 'function' ) {
 	};
 
 	$.fn.tweetFeed.options = {
-		username 			: 'adikari',
-		tweetTime    		: true,
-		profilePic			: false,
-		screenName 			: false,
-		wrapWith 			: '<li></li>',
-		wrapTweetWith 		: '<p></p>',
-		wrapDateWith 		: '<span></span>',
-		wrapScreenNameWith 	: '<h2></h2>',
-		containerClass 		: undefined,
-		tweetClass 			: undefined,
-		dateClass 			: undefined,
-		transition 			: 'false',
-		noOfTweets 			: 10,
-		refresh 			: null,
-		onComplete 			: null
+		username 		: 'adikari',
+		tweetTime    	: true,
+		wrapWith 		: '<li></li>',
+		wrapTweetWith 	: '<p></p>',
+		wrapDateWith 	: '<span></span>',
+		containerClass 	: undefined,
+		tweetClass 		: undefined,
+		dateClass 		: undefined,
+		transition 		: 'false',
+		noOfTweets 		: 10,
+		refresh 		: null,
+		callback 		: null
 	};	
 }(jQuery, window, document));
