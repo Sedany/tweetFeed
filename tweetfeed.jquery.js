@@ -20,7 +20,7 @@
 	me@subash.com.au or tweet me at @adikari
 
 	If you want to improve the plugin please fork it at github.
-	https://github.com/subash1232/twitFeed
+	https://github.com/subash1232/tweetFeed
 =================================================================================*/
 
 
