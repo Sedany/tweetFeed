@@ -48,9 +48,9 @@ Options Available
 ### tweetTime : Boolean
 ### profilePic : Boolean
 ### screenName : Boolean
-### wrapWith : Html tag as String
+### wrapContWith : Html tag as String
 ### wrapTweetWith : Html tag as String
-###wrapDateWith : Html tag as String
+### wrapDateWith : Html tag as String
 ### wrapScreenNameWith : Html tag as String
 ### containerClass : String
 ### tweetClass : String
