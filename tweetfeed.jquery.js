@@ -4,7 +4,7 @@
 	website: 		www.subash.com.au/plugins/tweetfeed	
 	Date: 			2nd August 2012
 	Contact: 		me@subash.com.au
-	Version: 		1.0
+	Version: 		1.2
 
 	HOW TO USE
 	============
@@ -20,7 +20,7 @@
 	me@subash.com.au or tweet me at @adikari
 
 	If you want to improve the plugin please fork it at github.
-	https://github.com/subash1232/twitFeed
+	https://github.com/subash1232/tweetFeed
 =================================================================================*/
 
 
@@ -106,25 +106,32 @@ if ( typeof Object.create !== 'function' ) {
 
 			self.tweets = $.map(results, function(obj, i){
 				
-				var tweet = $(self.options.wrapTweetWith)
-								.append(self.linkify(obj.text)),
+				var tweet = self.options.wrapTweetWith !== null ?
+								$(self.options.wrapTweetWith)
+									.append(self.linkify(obj.text)):
+										self.linkify(obj.text),
 
-					tweetTime = $(self.options.wrapDateWith)
-									.append(self.compareDates(obj.created_at)),
+					tweetTime = self.options.wrapDateWith !== null ?
+									$(self.options.wrapDateWith)
+										.append(self.compareDates(obj.created_at)):
+											self.compareDates(obj.created_at),
 
-					container = $(self.options.wrapWith)
+					container = $(self.options.wrapContWith)
 									.append(),
 
 					html= container.append(tweet);
 
-				if(options.containerClass !== undefined)
-					container.addClass(options.containerClass);
+				if(options.containerClass !== null &&
+					options.wrapContWith !== null)
+						container.addClass(options.containerClass);
 
-				if(options.tweetClass !== undefined)
-					tweet.addClass(options.tweetClass);
+				if(options.tweetClass !== null &&
+					options.wrapTweetWith !== null)
+						tweet.addClass(options.tweetClass);
 
-				if(options.dateClass !== undefined)
-					tweetTime.addClass(options.dateClass);
+				if(options.dateClass !== null &&
+					options.wrapDateWith !== null)
+						tweetTime.addClass(options.dateClass);
 
 				// append date to the container
 				if(options.tweetTime)
@@ -216,13 +223,13 @@ if ( typeof Object.create !== 'function' ) {
 	$.fn.tweetFeed.options = {
 		username 		: 'adikari',
 		tweetTime    	: true,
-		wrapWith 		: '<li></li>',
-		wrapTweetWith 	: '<p></p>',
-		wrapDateWith 	: '<span></span>',
-		containerClass 	: undefined,
-		tweetClass 		: undefined,
-		dateClass 		: undefined,
-		transition 		: 'false',
+		wrapContWith 	: '<li></li>',
+		wrapTweetWith 	: null,
+		wrapDateWith 	: null,
+		containerClass 	: null,
+		tweetClass 		: null,
+		dateClass 		: null,
+		transition 		: false,
 		noOfTweets 		: 10,
 		refresh 		: null,
 		callback 		: null
