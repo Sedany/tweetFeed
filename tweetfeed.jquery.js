@@ -106,7 +106,7 @@ if ( typeof Object.create !== 'function' ) {
 
 			self.tweets = $.map(results, function(obj, i){
 				
-				var $screenName = $(document.createElement(options.wrapUserNameWith)).append(self.username),
+				var $screenName = $(document.createElement(options.wrapUserNameWith)).append('<a href="http://www.twitter.com/'+ self.username +'">@' + self.username + '</a>'),
 
 					tweet = options.wrapTweetWith !== null ?
 								$(document.createElement(options.wrapTweetWith))
@@ -227,7 +227,7 @@ if ( typeof Object.create !== 'function' ) {
 	$.fn.tweetFeed.options = {
 		username 			: 'adikari',
 		tweetTime    		: true,
-		showUsername 		: false,
+		showUsername 		: true,
     	wrapUserNameWith 	: 'h3',
 		wrapContWith 		: 'li',
 		wrapTweetWith 		: null,
