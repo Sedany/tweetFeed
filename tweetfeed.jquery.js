@@ -106,32 +106,36 @@ if ( typeof Object.create !== 'function' ) {
 
 			self.tweets = $.map(results, function(obj, i){
 				
-				var tweet = self.options.wrapTweetWith !== null ?
-								$(self.options.wrapTweetWith)
+				var $screenName = $(document.createElement(options.wrapUserNameWith)).append(self.username),
+
+					tweet = options.wrapTweetWith !== null ?
+								$(document.createElement(options.wrapTweetWith))
 									.append(self.linkify(obj.text)):
 										self.linkify(obj.text),
 
-					tweetTime = self.options.wrapDateWith !== null ?
-									$(self.options.wrapDateWith)
+					tweetTime = options.wrapDateWith !== null ?
+									$(document.createElement(options.wrapDateWith))
 										.append(self.compareDates(obj.created_at)):
 											self.compareDates(obj.created_at),
 
-					container = $(self.options.wrapContWith)
-									.append(),
+					container = $(document.createElement(options.wrapContWith)).append();
 
-					html= container.append(tweet);
+				if(options.showUsername)
+					container.append($screenName);
 
-				if(options.containerClass !== null &&
-					options.wrapContWith !== null)
-						container.addClass(options.containerClass);
+				html = container.append(tweet);
+					
+				if(options.containerClass !== null && options.wrapContWith !== null)
+					container.addClass(options.containerClass);
 
-				if(options.tweetClass !== null &&
-					options.wrapTweetWith !== null)
-						tweet.addClass(options.tweetClass);
+				if(options.showUsername && options.usernameClass !== null && options.wrapUserNameWith !== null)
+					$screenName.addClass(options.usernameClass);
 
-				if(options.dateClass !== null &&
-					options.wrapDateWith !== null)
-						tweetTime.addClass(options.dateClass);
+				if(options.tweetClass !== null && options.wrapTweetWith !== null)
+					tweet.addClass(options.tweetClass);
+
+				if(options.dateClass !== null && options.wrapDateWith !== null)
+					tweetTime.addClass(options.dateClass);
 
 				// append date to the container
 				if(options.tweetTime)
@@ -221,17 +225,20 @@ if ( typeof Object.create !== 'function' ) {
 	};
 
 	$.fn.tweetFeed.options = {
-		username 		: 'adikari',
-		tweetTime    	: true,
-		wrapContWith 	: '<li></li>',
-		wrapTweetWith 	: null,
-		wrapDateWith 	: null,
-		containerClass 	: null,
-		tweetClass 		: null,
-		dateClass 		: null,
-		transition 		: false,
-		noOfTweets 		: 10,
-		refresh 		: null,
-		callback 		: null
+		username 			: 'adikari',
+		tweetTime    		: true,
+		showUsername 		: false,
+    	wrapUserNameWith 	: 'h3',
+		wrapContWith 		: 'li',
+		wrapTweetWith 		: null,
+		wrapDateWith 		: null,
+		containerClass 		: null,
+		tweetClass 			: null,
+		usernameClass 		: null,
+		dateClass 			: null,
+		transition 			: false,
+		noOfTweets 			: 10,
+		refresh 			: null,
+		callback 			: null
 	};	
 }(jQuery, window, document));

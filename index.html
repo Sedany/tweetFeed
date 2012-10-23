@@ -18,6 +18,8 @@
 $('div.tweets').tweetFeed({
 	username: 'adikari',
 	transition: 'false',
+	screenName : true,
+    wrapScreenNameWith : '<h3></h3>',
 	callback: function(){
 		console.log('loaded after the tweets.');
 	}
