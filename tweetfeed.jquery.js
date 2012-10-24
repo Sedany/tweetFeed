@@ -211,7 +211,7 @@ if ( typeof Object.create !== 'function' ) {
 		 */
 		limit: function(obj, count){
 			return obj.slice(0 ,count);
-		},
+		}
 
 	};
 
